@@ -42,8 +42,8 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator HandleSceneLoad(string _sceneName)
     {
-        loadScreen.SetProgress(0.1f);
-        yield return new WaitForSeconds(1f);
+        loadScreen.SetProgress(Random.Range(0.05f, 0.2f));
+        yield return new WaitForSeconds(0.25f);
 
         AsyncOperation _loadOperation = SceneManager.LoadSceneAsync(_sceneName);
 

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseCost: 50
   baseCooldown: 5
-  unitArt: {fileID: 0}
-  unit: {fileID: 0}
+  unitArt: {fileID: 21300000, guid: be14f64990186964c8e60524ad2dbd34, type: 3}
+  unit: {fileID: 2811888957294966622, guid: 2f92f8c19b8474340b1bae5ec230ed3e, type: 3}

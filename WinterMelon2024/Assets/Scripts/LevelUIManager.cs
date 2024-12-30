@@ -8,13 +8,12 @@ public class LevelUIManager : UIManager
 {
     [SerializeField] private TextMeshProUGUI currencyText;
     [Space]
-    [SerializeField] private Button[] unitButtons;    
+    [SerializeField] private UnitSpawner[] unitButtons;    
 
     FriendlyManager friendlyManager;
 
-    private UnitData[] availableUnits;
+    private List<UnitData> availableUnits;
     private Image[] buttonImages;
-    private Image[] cooldownBars;
 
     protected override void Awake()
     {
@@ -24,11 +23,9 @@ public class LevelUIManager : UIManager
         availableUnits = GameManager.Instance.units;
 
         buttonImages = new Image[unitButtons.Length];
-        cooldownBars = new Image[unitButtons.Length];
         for (int i = 0; i < unitButtons.Length; i++)
         {
             buttonImages[i] = unitButtons[i].GetComponent<Image>();
-            cooldownBars[i] = unitButtons[i].GetComponentInChildren<Image>();
         }
 
         SetButtons();
@@ -51,36 +48,29 @@ public class LevelUIManager : UIManager
 
     private void SetButtons()
     {
-        for (int i = 0; i < availableUnits.Length; i++)
+        for (int i = 0; i < GameManager.MAX_UNITS; i++)
         {
-            if (availableUnits[i] == null)
+            if (i >= availableUnits.Count)
             {
                 unitButtons[i].gameObject.SetActive(false);
                 continue;
             }
 
-            buttonImages[i].sprite = availableUnits[i].unitArt;
+            unitButtons[i].SetUnit(availableUnits[i]);
             //Cost + buyable
             unitButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = 
                 Mathf.RoundToInt(availableUnits[i].baseCost * friendlyManager.CostMultiplier).ToString();
             buttonImages[i].color = new Color(buttonImages[i].color.r, buttonImages[i].color.g, buttonImages[i].color.b, 0.6f);
 
             //Cooldown
-            cooldownBars[i].fillAmount = 1f;
-
-            unitButtons[i].onClick.AddListener(delegate { SpawnUnit(availableUnits[i]); });
+            unitButtons[i].SetCD(1f);
         }
     }
 
     public void UpdateButtons(float _currency, float[] _cooldowns)
     {
-        for (int i = 0; i < availableUnits.Length; i++)
+        for (int i = 0; i < availableUnits.Count; i++)
         {
-            if (availableUnits[i] == null)
-            {
-                break;
-            }
-
             //Set Cost
             unitButtons[i].GetComponentInChildren<TextMeshProUGUI>().text =
                 Mathf.RoundToInt(availableUnits[i].baseCost * friendlyManager.CostMultiplier).ToString();
@@ -89,15 +79,15 @@ public class LevelUIManager : UIManager
             float _cd = _cooldowns[i] / (availableUnits[i].baseCooldown * friendlyManager.CooldownMultiplier);
             if (_cd >= 1f)
             {
-                cooldownBars[i].fillAmount = 0f;
+                unitButtons[i].SetCD(0f);
             }
             else
             {
-                cooldownBars[i].fillAmount = _cd;
+                unitButtons[i].SetCD(_cd);
             }           
 
             float _transparency = 0.6f;
-            if (_cooldowns[i] < availableUnits[i].baseCooldown * friendlyManager.CooldownMultiplier
+            if (_cooldowns[i] > availableUnits[i].baseCooldown * friendlyManager.CooldownMultiplier
                 && _currency > availableUnits[i].baseCost * friendlyManager.CostMultiplier)
             {
                 _transparency = 1f;

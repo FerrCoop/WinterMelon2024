@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class BaseManager : Building
@@ -8,11 +9,11 @@ public abstract class BaseManager : Building
     [SerializeField] Transform unitSpawn;
 
     private float tickTracker;
-    protected float currencyCap;
-    protected float incomePerSecond;
+    protected float currencyCap = 500f;
+    protected float incomePerSecond = 10f;
     protected float currency;
 
-    protected UnitData[] availableUnits;
+    protected List<UnitData> availableUnits;
     protected Dictionary<UnitData, float> cooldownDict;
 
     public float CostMultiplier { get; private set; }
@@ -20,20 +21,16 @@ public abstract class BaseManager : Building
 
     public Action tickAction;
 
-    protected virtual void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         CostMultiplier = 1f;
         CooldownMultiplier = 1f;
 
-        availableUnits = GameManager.Instance.units;
-
         cooldownDict = new Dictionary<UnitData, float>();
-        for (int i = 0; i < availableUnits.Length; i++)
+        for (int i = 0; i < availableUnits.Count; i++)
         {
-            if (availableUnits[i] == null)
-            {
-                break;
-            }
             cooldownDict.Add(availableUnits[i], 0f);
         }
     }
@@ -51,7 +48,7 @@ public abstract class BaseManager : Building
             }
         }
 
-        foreach (UnitData _unit in cooldownDict.Keys)
+        foreach (UnitData _unit in cooldownDict.Keys.ToList<UnitData>())
         {
             cooldownDict[_unit] += Time.deltaTime;
         }

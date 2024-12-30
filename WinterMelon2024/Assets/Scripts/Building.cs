@@ -9,10 +9,15 @@ public abstract class Building : MonoBehaviour, IDamagable
     [Space]
     [SerializeField] private Image healthBar;
 
-    private float maxHealth = 1000f;
+    private float maxHealth = 300f;
     private float currentHealth;
 
     private float HealthNormalized { get { return currentHealth / maxHealth; } }
+
+    protected virtual void Awake()
+    {
+        currentHealth = maxHealth;
+    }
 
     public virtual void HandleTick()
     {

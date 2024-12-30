@@ -30,19 +30,21 @@ public class BaseUnit : Unit
                 //try find target
                 foreach (Collider2D _target in _targets)
                 {
-                    if (_target.GetType() == typeof(BaseManager))
+                    _target.TryGetComponent<IDamagable>(out IDamagable _targetDamagable);
+                    if (_targetDamagable.GetType() == typeof(BaseManager))
                     {
-                        target = _target.GetComponent<IDamagable>();
+                        target = _targetDamagable;
+                        Debug.Log("targetting base");
                         break;
                     }
-                    else if (_target.GetType() == typeof(Building) &&
+                    else if (_targetDamagable.GetType() == typeof(Building) &&
                         ((target != null && target.GetType() != typeof(Building)) || target == null))
                     {
-                        target = _target.GetComponent<IDamagable>();
+                        target = _targetDamagable;
                     }
                     else
                     {
-                        target = _target.GetComponent<Unit>();
+                        target = _targetDamagable;
                     }
                 }
             }
@@ -56,7 +58,11 @@ public class BaseUnit : Unit
 
     private void Attack()
     {
-        target.Damage(damage * DamageMultiplier);
+        Debug.Log("Attack!");
+        if (target.Damage(damage * DamageMultiplier))
+        {
+            target = null;
+        }
         attackCooldown = 0f;
     }
 }

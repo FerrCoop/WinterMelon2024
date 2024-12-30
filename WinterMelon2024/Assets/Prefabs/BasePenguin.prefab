@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -202759349
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -103,6 +103,7 @@ MonoBehaviour:
   armor: 1
   maxSpeed: 3
   range: 1.25
+  damageHighlight: {fileID: 0}
   damage: 15
   secondsPerAttack: 2.5
 --- !u!114 &1809805584979812460

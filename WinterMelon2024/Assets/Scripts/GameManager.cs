@@ -6,11 +6,19 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public UnitData[] units;
+    public int XP { get { return xp; } }
 
-    private const int MAX_UNITS = 4;
+    public UnitData[] unitUnlocks;
 
-    private int numUnits; 
+    public List<UnitData> units;
+
+    public const int MAX_UNITS = 4;
+
+    private int numUnits;
+    private int currentLevel;
+    private int unlockedUnits = 1;
+    private int unlockedBuildings = 0;
+    private int xp;
 
     private void Awake()
     {
@@ -22,23 +30,43 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(this.gameObject);
+        currentLevel = PlayerPrefs.GetInt("currentLevel");
+        unlockedUnits = PlayerPrefs.GetInt("unlockedUnits");
 
         StatTracker.LoadData();
 
-        units = new UnitData[MAX_UNITS];
+        units = new List<UnitData>();
     }
 
-    public void AddUnit(UnitData _unitData)
+    public bool AddUnit(UnitData _unitData)
     {
-        if (numUnits < MAX_UNITS)
+        if(units.Count < MAX_UNITS)
         {
-            units[numUnits] = _unitData;
-            numUnits++;
+            units.Add(_unitData);
+            return true;
         }
+        return false;
+    }
+
+    public void AddXP(int _xp)
+    {
+        xp += _xp;
+    }
+
+    public void UnlockUnits(int _num)
+    {
+        unlockedUnits += _num;
+    }
+
+    public void UnlockBuildings(int _num)
+    {
+        unlockedBuildings += _num;
     }
 
     public void OnApplicationQuit()
     {
+        PlayerPrefs.SetInt("currentLevel", currentLevel);
+        PlayerPrefs.SetInt("unlockedUnits", unlockedUnits);
         StatTracker.SaveStats();
     }
 }

@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(new Vector3(panAmt * Time.deltaTime, 0f, 0f));
+        transform.Translate(new Vector3(panAmt * Time.deltaTime * panSpeed, 0f, 0f));
     }
 
     private void OnPan(InputValue _pan)

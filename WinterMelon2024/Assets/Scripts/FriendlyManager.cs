@@ -8,6 +8,8 @@ public class FriendlyManager : BaseManager
 
     protected override void Awake()
     {
+        availableUnits = GameManager.Instance.units;
+
         base.Awake();
 
         uiManager = FindObjectOfType<LevelUIManager>();
@@ -19,13 +21,9 @@ public class FriendlyManager : BaseManager
     {
         base.Update();
 
-        float[] _cooldowns = new float[availableUnits.Length];
-        for (int i = 0; i < availableUnits.Length; i++)
+        float[] _cooldowns = new float[availableUnits.Count];
+        for (int i = 0; i < availableUnits.Count; i++)
         {
-            if (availableUnits[i] == null)
-            {
-                break;
-            }
             _cooldowns[i] = cooldownDict[availableUnits[i]];
         }
 
