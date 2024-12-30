@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class LevelUIManager : UIManager
 {
+    public LevelData levelData;
+    [Space]
+    [SerializeField] private TextMeshProUGUI displayText;
     [SerializeField] private TextMeshProUGUI currencyText;
     [Space]
     [SerializeField] private UnitSpawner[] unitButtons;    
@@ -65,6 +68,20 @@ public class LevelUIManager : UIManager
             //Cooldown
             unitButtons[i].SetCD(1f);
         }
+    }
+
+    public void DisplayText(string _text)
+    {
+        displayText.text = _text;
+        if(_text == "Victory")
+        {
+            displayText.color = Color.blue;
+        }
+        else
+        {
+            displayText.color = Color.red;
+        }
+        displayText.gameObject.SetActive(true);
     }
 
     public void UpdateButtons(float _currency, float[] _cooldowns)

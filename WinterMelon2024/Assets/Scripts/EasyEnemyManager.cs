@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EasyEnemyManager : BaseManager
+public class EasyEnemyManager : EnemyManager
 {
     [SerializeField] private UnitData baseEnemy;
 

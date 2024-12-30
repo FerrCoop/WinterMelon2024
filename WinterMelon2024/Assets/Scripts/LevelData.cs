@@ -8,4 +8,5 @@ public class LevelData : ScriptableObject
     public string levelName;
     [TextArea(5, 7)] public string levelDescription;
     public Sprite levelArt;
+    public int levelXP;
 }
