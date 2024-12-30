@@ -1463,6 +1463,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadScreenPrefab: {fileID: 853041740639548893, guid: 65efe1ddede26dd419ba7d8062a52775, type: 3}
+  unitOptions:
+  - {fileID: 5850487594797788889}
+  - {fileID: 2172155905895043858}
+  - {fileID: 2597790480541655052}
+  - {fileID: 5582411693255988154}
+  - {fileID: 3602160017464341727}
+  - {fileID: 3699427420206259055}
   buttons: {fileID: 6864456990765436556}
   researchPanel: {fileID: 1382990892778569918}
   teamPanel: {fileID: 667405618750348954}

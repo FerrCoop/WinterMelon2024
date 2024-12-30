@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LobbyManager : UIManager
 {
+    [SerializeField] private UnitOption[] unitOptions;
+    [Space]
     [SerializeField] private GameObject buttons;
     [SerializeField] private GameObject researchPanel;
     [SerializeField] private GameObject teamPanel;
@@ -44,6 +47,22 @@ public class LobbyManager : UIManager
         teamPanel.SetActive(!teamPanel.activeSelf);
         buttons.SetActive(!buttons.activeSelf);
         levels.SetActive(!levels.activeSelf);
+
+        if (teamPanel.activeSelf)
+        {
+            for (int i = 0; i < unitOptions.Length; i++)
+            {
+                if(i < GameManager.Instance.unlockedUnits)
+                {
+                    unitOptions[i].gameObject.SetActive(true);
+                    unitOptions[i].Set(GameManager.Instance.unitUnlocks[i]);
+                }
+                else
+                {
+                    unitOptions[i].gameObject.SetActive(false);
+                }
+            }
+        }
     }
 
     public void SelectResearch(ResearchOption _researchOption)

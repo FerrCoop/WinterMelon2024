@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     private int numUnits;
     private int currentLevel;
-    private int unlockedUnits = 1;
+    public int unlockedUnits = 1;
     private int unlockedBuildings = 0;
     private int xp;
 
@@ -32,6 +32,10 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         currentLevel = PlayerPrefs.GetInt("currentLevel");
         unlockedUnits = PlayerPrefs.GetInt("unlockedUnits");
+        if (unlockedUnits < 1)
+        {
+            unlockedUnits = 1;
+        }
 
         StatTracker.LoadData();
 
